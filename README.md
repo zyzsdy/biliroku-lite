@@ -8,10 +8,10 @@ However, this project was designed to work on weaker devices, so the project wil
 
 ## Dependencies
 
-CMake (Version 3.4 or newer) 
-RapidJSON (https://github.com/Tencent/rapidjson/releases)
-CURL (7.60.0 or newer)
-cmdline (https://github.com/tanakh/cmdline)
+* CMake (Version 3.4 or newer) 
+* RapidJSON (https://github.com/Tencent/rapidjson/releases)
+* CURL (7.60.0 or newer)
+* cmdline (https://github.com/tanakh/cmdline)
 
 ## Compilation
 
