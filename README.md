@@ -25,7 +25,7 @@ The compilation steps are as follows:
 ```bash
 mkdir build
 cd build
-cmake -DRAPID_JSON_DIR <path_to_rapidJSON> ..
+cmake -DRAPID_JSON_DIR <path_to_rapidJSON> ../
 make
 make install
 ```
@@ -39,7 +39,7 @@ Simple use example:
 **Download the live room number 1 and save it to aust_{time}.flv:**
 
 ```bash
-Biliroku -n 1 -o aust_{time}.flv
+biliroku -n 1 -o aust_{time}.flv
 ```
 
 {time} will be automatically replaced with a string of the form YYYYMMDDHHMMSS. The video file you finally got might look like as: aust_20180713150201.flv
@@ -47,7 +47,7 @@ Biliroku -n 1 -o aust_{time}.flv
 **Download the live content of the 1st, use the socks5 proxy 127.0.0.1 at port 1080:**
 
 ```bash
-Biliroku -n 1 --proxy socks5://127.0.0.1:1080
+biliroku -n 1 --proxy socks5://127.0.0.1:1080
 ```
 
 ## LICENSE
