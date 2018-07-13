@@ -6,6 +6,8 @@ It is a continuation of the previous project ([Biliroku](https://github.com/zyzs
 
 However, this project was designed to work on weaker devices, so the project will strictly control CPU and memory usage. I hope this will bring a good experience.
 
+源码分发，编译运行。我就不提供二进制你来打我呀。
+
 ## Dependencies
 
 * CMake (Version 3.4 or newer) 
@@ -36,7 +38,7 @@ Run `biliroku -h` to display help.
 
 Simple use example:
 
-**Download the live room number 1 and save it to aust_{time}.flv:**
+**Download the live stream of roomid = 1 and save it to aust_{time}.flv:**
 
 ```bash
 biliroku -n 1 -o aust_{time}.flv
@@ -44,7 +46,7 @@ biliroku -n 1 -o aust_{time}.flv
 
 {time} will be automatically replaced with a string of the form YYYYMMDDHHMMSS. The video file you finally got might look like as: aust_20180713150201.flv
 
-**Download the live content of the 1st, use the socks5 proxy 127.0.0.1 at port 1080:**
+**Download the live stream of roomid = 1, use the socks5 proxy 127.0.0.1 at port 1080:**
 
 ```bash
 biliroku -n 1 --proxy socks5://127.0.0.1:1080
