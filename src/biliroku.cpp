@@ -1,7 +1,10 @@
 #include "cmdline.h"
 #include "version.h"
+#include "Logger.h"
 #include <string>
 #include <sstream>
+
+#include "LiveDownloader.h"
 
 using std::string;
 
@@ -45,6 +48,22 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+	bool isAutoRetry = false;
+	if (cp.exist("autoretry")) isAutoRetry = true;
+	
+	biliroku::LiveDownloader downloader(cp.get<string>("roomid"), cp.get<string>("output"), isAutoRetry);
+
+	downloader.setLogFunc([](int level, const string &message) {
+		static const string logHeaders[] = {
+			"[DEBUG]", "[INFO]", "[NOTICE]", "[WARNING]", "[ERROR]", "[FETAL]"
+		};
+
+		std::cerr << logHeaders[level] << ' ' << message << std::endl;
+	});
+
+	if (cp.exist("proxy")) {
+		downloader.setProxy(cp.get<string>("proxy"));
+	}
 
     std::cout << "OK\nROOMID: " << cp.get<string>("roomid") << "\n";
     std::cout << "OUTPUT: " << cp.get<string>("output") << "\n";
