@@ -15,11 +15,12 @@ namespace biliroku {
 		bool isAutoRetry;
 
 		Logger *log;
-
+		string streamUrl;
 	public:
 		LiveDownloader(string _roomid, string _outputPath, bool _autoRetry);
 		~LiveDownloader();
 		void setProxy(string _proxyString);
 		void setLogFunc(LogCallback logfunc);
+		bool init();
 	};
 }

@@ -65,12 +65,11 @@ int main(int argc, char *argv[]) {
 		downloader.setProxy(cp.get<string>("proxy"));
 	}
 
-    std::cout << "OK\nROOMID: " << cp.get<string>("roomid") << "\n";
-    std::cout << "OUTPUT: " << cp.get<string>("output") << "\n";
-    std::cout << "PROXY: " << cp.get<string>("proxy") << "\n";
-    std::cout << (cp.exist("autoretry") ? "USE" : "NOT USE") << " Auto Retry" << std::endl;
+	if (!downloader.init()) {
+		return 2;
+	}
+
+	std::cerr << "Finished! Exit." << std::endl;
 
     return 0;
-
-
 }
