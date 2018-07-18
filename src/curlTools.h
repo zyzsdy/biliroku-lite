@@ -4,6 +4,9 @@
 #include "ByteBuffer.h"
 
 namespace biliroku {
+	#define CURL_TIMEOUT_SECOND 180
+	#define CURL_CONNTIMEOUT_SEC 30
+
 	using std::string;
 
 	curl_slist *getCurlHeader();

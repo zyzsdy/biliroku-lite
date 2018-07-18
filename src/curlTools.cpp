@@ -4,9 +4,6 @@
 
 
 namespace biliroku {
-	const int CURL_TIMEOUT_SECOND = 180;
-	const int CURL_CONNTIMEOUT_SEC = 30;
-
 
 	//CURL_EASY_HANDLE的内部回调，用来将响应数据写入内存。
 	size_t readCurlUChar(void * buffer, size_t size, size_t nmemb, void * userp) {

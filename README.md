@@ -27,7 +27,7 @@ The compilation steps are as follows:
 ```bash
 mkdir build
 cd build
-cmake -DRAPID_JSON_DIR <path_to_rapidJSON> ../
+cmake -DRAPID_JSON_DIR=<path_to_rapidJSON> ../
 make
 make install
 ```

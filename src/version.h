@@ -102,8 +102,10 @@
 	#define BRL_OS Android
 #elif defined(__CYGWIN__)
 	#define BRL_OS Cygwin
+	#define BRL_LINUX
 #elif !defined(SAG_COM) && (!defined(WINAPI_FAMILY) || WINAPI_FAMILY==WINAPI_FAMILY_DESKTOP_APP) && (defined(WIN64) || defined(_WIN64) || defined(__WIN64__))
 	#define BRL_OS Win64
+	#define BRL_WIN32
 #elif !defined(SAG_COM) && (defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
 	#if defined(WINCE) || defined(_WIN32_WCE)
 		#define BRL_OS WinCE
@@ -114,6 +116,7 @@
 			#define BRL_OS WinRT
 		#else
 			#define BRL_OS Win32
+			#define BRL_WIN32
 		#endif
 	#else
 		#define BRL_OS Win32
@@ -130,6 +133,7 @@
 	#define BRL_OS NACL
 #elif defined(__linux__) || defined(__linux)
 	#define BRL_OS Linux
+	#define BRL_LINUX
 #elif defined(__FreeBSD__) || defined(__DragonFly__) || defined(__FreeBSD_kernel__)
 	#define BRL_OS FreeBSD
 #elif defined(__NetBSD__)

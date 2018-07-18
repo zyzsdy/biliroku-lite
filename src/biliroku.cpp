@@ -5,8 +5,14 @@
 #include <sstream>
 
 #include "LiveDownloader.h"
+#include "DownloadMeter.h"
+
+#ifdef BRL_WIN32
+#include <Windows.h>
+#endif // BRL_WIN32
 
 using std::string;
+biliroku::ctrlCEvent *ce;
 
 string getVersion() {
 	std::stringstream versionStream;
@@ -16,6 +22,17 @@ string getVersion() {
 	return versionStream.str();
 }
 
+bool ctrlhandler(DWORD fdwctrltype) {
+	switch (fdwctrltype)
+	{
+	case CTRL_C_EVENT:
+		ce->isStop = true;
+		std::cerr << "Ctrl-C pressed, waiting for exit." << std::endl;
+		return false;
+	default:
+		return false;
+	}
+}
 
 int main(int argc, char *argv[]) {
     cmdline::parser cp;
@@ -32,7 +49,7 @@ int main(int argc, char *argv[]) {
 
     if (cp.exist("help")) {
         std::cerr << cp.usage();
-        std::cerr << "  ------\nWildcard description:\nYou can use wildcards in the output argument.\n";
+        std::cerr << "\nWildcard description:\nYou can use wildcards in the output argument.\n";
         std::cerr << "{roomid} - replaced by room id\n{time} - replaced by a string of the form YYYYMMDDHHMMSS.";
         std::cerr << std::endl;
         return 0;
@@ -50,15 +67,39 @@ int main(int argc, char *argv[]) {
 
 	bool isAutoRetry = false;
 	if (cp.exist("autoretry")) isAutoRetry = true;
+
+	ce = new biliroku::ctrlCEvent();
+#ifdef BRL_WIN32
+	if (SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrlhandler, true)) {
+		std::cerr << "Press Ctrl-C to interrupt the downloading." << std::endl;
+	}
+	else {
+		std::cerr << "[WARNING] Could not set control handler." << std::endl;
+	}
+#else
+#error "You should implement a method to catch Ctrl-C event"
+#endif // BRL_WIN32
 	
-	biliroku::LiveDownloader downloader(cp.get<string>("roomid"), cp.get<string>("output"), isAutoRetry);
+	biliroku::LiveDownloader downloader(cp.get<string>("roomid"), cp.get<string>("output"), isAutoRetry, ce);
 
 	downloader.setLogFunc([](int level, const string &message) {
+		static string lastNotice = "";
+
 		static const string logHeaders[] = {
 			"[DEBUG]", "[INFO]", "[NOTICE]", "[WARNING]", "[ERROR]", "[FETAL]"
 		};
 
-		std::cerr << logHeaders[level] << ' ' << message << std::endl;
+		if (level != BRL_LOG_NOTICE) {
+			std::cerr << logHeaders[level] << ' ' << message << std::endl;
+			if (lastNotice.length() != 0) {
+				std::cerr << lastNotice << '\r' << std::flush;
+			}
+		}
+		else {
+			std::cerr << message << '\r' << std::flush;
+			lastNotice = message;
+		}
+		
 	});
 
 	if (cp.exist("proxy")) {
@@ -68,6 +109,8 @@ int main(int argc, char *argv[]) {
 	if (!downloader.init()) {
 		return 2;
 	}
+
+	downloader.download();
 
 	std::cerr << "Finished! Exit." << std::endl;
 
