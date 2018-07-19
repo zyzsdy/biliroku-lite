@@ -157,7 +157,7 @@ namespace biliroku {
 					curl_easy_setopt(curl, CURLOPT_URL, streamUrl.c_str());
 					curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 					curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-					curl_easy_setopt(curl, CURLOPT_TIMEOUT, CURL_TIMEOUT_SECOND);
+					curl_easy_setopt(curl, CURLOPT_TIMEOUT, 0);
 					curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, CURL_CONNTIMEOUT_SEC);
 					curl_easy_setopt(curl, CURLOPT_HTTPHEADER, getCurlHeader());
 					curl_easy_setopt(curl, CURLOPT_AUTOREFERER, 1);
