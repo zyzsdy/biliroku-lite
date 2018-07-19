@@ -9,6 +9,10 @@
 
 #ifdef BRL_WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
 #endif // BRL_WIN32
 
 using std::string;
@@ -16,7 +20,7 @@ biliroku::ctrlCEvent *ce;
 
 string getVersion() {
 	std::stringstream versionStream;
-	versionStream << "Biliroku-lite 1.0.1 (" << BRL_STR(BRL_COMP_NAME) << " " << BRL_COMP_VERSION;
+	versionStream << "Biliroku-lite 1.0.2 (" << BRL_STR(BRL_COMP_NAME) << " " << BRL_COMP_VERSION;
 	versionStream << ";" << BRL_STR(BRL_OS) << ") on " << BRL_STR(BRL_ARCH);
 
 	return versionStream.str();
@@ -33,6 +37,11 @@ bool ctrlhandler(DWORD fdwctrltype) {
 	default:
 		return false;
 	}
+}
+#else
+void ctrlhandler(int sig){
+	ce->isStop = true;
+	std::cerr << "Ctrl-C pressed, waiting for exit." << std::endl;
 }
 #endif
 
@@ -79,7 +88,14 @@ int main(int argc, char *argv[]) {
 		std::cerr << "[WARNING] Could not set control handler." << std::endl;
 	}
 #else
-#error "You should implement a method to catch Ctrl-C event"
+	struct sigaction sigIntHandler;
+
+	sigIntHandler.sa_handler = ctrlhandler;
+	sigemptyset(&sigIntHandler.sa_mask);
+	sigIntHandler.sa_flags = 0;
+
+	std::cerr << "Press Ctrl-C to interrupt the downloading." << std::endl;
+	sigaction(SIGINT, &sigIntHandler, NULL);
 #endif // BRL_WIN32
 	
 	biliroku::LiveDownloader downloader(cp.get<string>("roomid"), cp.get<string>("output"), isAutoRetry, ce);

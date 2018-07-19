@@ -6,6 +6,7 @@
 
 #include <rapidjson/document.h>
 #include <rapidjson/pointer.h>
+#include <curl/curl.h>
 #include <sstream>
 #include <fstream>
 #include <algorithm>
@@ -91,11 +92,7 @@ namespace biliroku {
 
 		ByteBuffer realRoomidResult;
 
-		try {
-			CURL_simple_get(roomWebpageUrl, realRoomidResult, isUseProxy, proxyString);
-		}
-		catch (std::exception e) {
-			log->addLog(BRL_LOG_ERROR, e.what());
+		if(!CURL_simple_get(roomWebpageUrl, realRoomidResult, isUseProxy, proxyString)){
 			return false;
 		}
 
@@ -124,11 +121,7 @@ namespace biliroku {
 
 		ByteBuffer streamUrlResult;
 
-		try {
-			CURL_simple_get(apiUrl.str(), streamUrlResult, isUseProxy, proxyString);
-		}
-		catch (std::exception e) {
-			log->addLog(BRL_LOG_ERROR, e.what());
+		if(!CURL_simple_get(apiUrl.str(), streamUrlResult, isUseProxy, proxyString)){
 			return false;
 		}
 

@@ -1,5 +1,8 @@
 #include "ByteBuffer.h"
 #include <algorithm>
+#ifndef _MSC_VER
+#include <string.h>
+#endif
 
 
 namespace biliroku {
@@ -37,7 +40,12 @@ namespace biliroku {
 			size_t newsize = std::max((max_size * 2), (max_size + bytelength));
 			auto newbuffer = new unsigned char[newsize];
 			//复制旧数据
+
+			#ifdef _MSC_VER
 			memcpy_s(newbuffer, newsize, this->buffer, len);
+			#else
+			memcpy(newbuffer, this->buffer, len);
+			#endif
 			//删除旧数据
 			delete[] this->buffer;
 			//重置指针
@@ -45,7 +53,11 @@ namespace biliroku {
 			max_size = newsize;
 		}
 
+		#ifdef _MSC_VER
 		memcpy_s(this->buffer + len, max_size - len, buffer, bytelength);
+		#else
+		memcpy(this->buffer, buffer, bytelength);
+		#endif
 		len += bytelength;
 
 		return bytelength;

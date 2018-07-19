@@ -8,9 +8,16 @@ namespace biliroku {
 	{
 		time_t t = time(NULL);
 		char ch[64] = { 0 };
+		
+		#ifdef _MSC_VER
 		tm timeResult;
 		localtime_s(&timeResult, &t);
 		strftime(ch, sizeof(ch) - 1, "%Y%m%d%H%M%S", &timeResult);
+		#else
+		tm *timeResult = localtime(&t);
+		strftime(ch, sizeof(ch) - 1, "%Y%m%d%H%M%S", timeResult);
+		#endif
+		
 		return string(ch);
 	}
 

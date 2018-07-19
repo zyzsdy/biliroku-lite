@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.4)
 project (Biliroku-lite)
 
 #CURL
-find_package(curl)
+find_package(CURL)
 list(APPEND include_dirs ${CURL_INCLUDE_DIRS})
 list(APPEND extra_libs ${CURL_LIBRARIES})
 

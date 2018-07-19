@@ -2,7 +2,6 @@
 #include "Logger.h"
 #include <sstream>
 
-
 namespace biliroku {
 
 	//CURL_EASY_HANDLE的内部回调，用来将响应数据写入内存。
@@ -23,21 +22,32 @@ namespace biliroku {
 	}
 
 	//使用GET读取，这个函数会同步阻塞，当其返回时，响应内容已经全部装入out中（不含Header）
-	void CURL_simple_get(string url, ByteBuffer &out, bool isUseProxy = false, string proxyStr = "") {
+	bool CURL_simple_get(string url, ByteBuffer &out, bool isUseProxy = false, string proxyStr = "") {
+		auto log = Logger::getInstance();
+		bool ret = true;
+
 		curl_global_init(CURL_GLOBAL_ALL);
 
 		
 
 		CURL *curl = curl_easy_handler_builder(url, out, getCurlHeader(), isUseProxy, proxyStr);
-
-		CURLcode res = curl_easy_perform(curl);
-		if (res != CURLE_OK) {
-			string k = "Error occured while downloading " + url + ": " + string(curl_easy_strerror(res));
-			throw std::exception(k.c_str());
+		if (curl == nullptr){
+			log->addLog(BRL_LOG_ERROR, "Error occured while init curl.");
+			ret = false;
 		}
-		curl_easy_cleanup(curl);
+		else{
+			CURLcode res = curl_easy_perform(curl);
+			if (res != CURLE_OK) {
+				string k = "Error occured while downloading " + url + ": " + string(curl_easy_strerror(res));
+				log->addLog(BRL_LOG_ERROR, k);
+				ret = false;
+			}
 
+			curl_easy_cleanup(curl);
+		}
 		curl_global_cleanup();
+
+		return ret;
 	}
 
 	CURL *curl_easy_handler_builder(string url, ByteBuffer &out, curl_slist *headers, bool isUseProxy, string proxyStr) {
@@ -58,7 +68,7 @@ namespace biliroku {
 			}
 		}
 		else {
-			throw std::exception("Error occured while curl handler init.");
+			return nullptr;
 		}
 
 		return curl;
