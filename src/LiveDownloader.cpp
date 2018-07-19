@@ -56,14 +56,14 @@ namespace biliroku {
 				dm->failedCount = 0;
 			}
 
-			dm->speed = dataSpan / (CHECK_TIMEOUT_MS / 1000.0);
+			dm->speed = dataSpan / (double)(nowTime - dm->lastTime);
 			
 			dm->lastTime = nowTime;
 			dm->totalByte = dlnow;
 		}
 
 		std::stringstream statusLog;
-		statusLog << "Download: " << formatSize(dlnow) << " Speed: " << formatSize(dm->speed) << "/s";
+		statusLog << "Download: " << formatSize((double)dlnow) << " Speed: " << formatSize(dm->speed) << "/s";
 		dm->log->addLog(BRL_LOG_NOTICE, statusLog.str());
 		return 0;
 	}
@@ -112,6 +112,8 @@ namespace biliroku {
 			log->addLog(BRL_LOG_ERROR, "Failed to get the real Roomid.");
 			return false;
 		}
+
+		return true;
 	}
 
 	bool LiveDownloader::getTrueStream()
