@@ -33,14 +33,14 @@ namespace biliroku {
 	size_t ByteBuffer::append(const unsigned char * buffer, size_t bytelength)
 	{
 		if (max_size - len < bytelength) {
-			//À©ÈÝ
+			//æ‰©å®¹
 			size_t newsize = std::max((max_size * 2), (max_size + bytelength));
 			auto newbuffer = new unsigned char[newsize];
-			//¸´ÖÆ¾ÉÊý¾Ý
+			//å¤åˆ¶æ—§æ•°æ®
 			memcpy_s(newbuffer, newsize, this->buffer, len);
-			//É¾³ý¾ÉÊý¾Ý
+			//åˆ é™¤æ—§æ•°æ®
 			delete[] this->buffer;
-			//ÖØÖÃÖ¸Õë
+			//é‡ç½®æŒ‡é’ˆ
 			this->buffer = newbuffer;
 			max_size = newsize;
 		}

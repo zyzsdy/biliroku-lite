@@ -39,9 +39,9 @@ namespace biliroku {
 		}
 
 		time_t nowTime = time(NULL);
-		if (nowTime - dm->lastTime > (CHECK_TIMEOUT_MS / 1000)) { //³¬¹ıÁË¼ì²éÒ»´ÎµÄÊ±¼ä
+		if (nowTime - dm->lastTime > (CHECK_TIMEOUT_MS / 1000)) { //è¶…è¿‡äº†æ£€æŸ¥ä¸€æ¬¡çš„æ—¶é—´
 			size_t dataSpan = dlnow - dm->totalByte;
-			if (dataSpan <= 0) { //Èç¹ûÔÚÕâ¶ÎÊ±¼äÄÚÃ»½ÓÊÕµ½Êı¾İ
+			if (dataSpan <= 0) { //å¦‚æœåœ¨è¿™æ®µæ—¶é—´å†…æ²¡æ¥æ”¶åˆ°æ•°æ®
 				dm->failedCount += 1;
 				std::stringstream logss;
 				logss << "No data received during the check: count " << dm->failedCount;
@@ -86,7 +86,7 @@ namespace biliroku {
 	bool LiveDownloader::init()
 	{
 		log->addLog(BRL_LOG_INFO, "Resolve real room number...");
-		//½âÎöÕæÊµ·¿¼äºÅ
+		//è§£æçœŸå®æˆ¿é—´å·
 		string roomWebpageUrl = "https://api.live.bilibili.com/room/v1/Room/room_init?id=" + roomid;
 
 		ByteBuffer realRoomidResult;
@@ -118,7 +118,7 @@ namespace biliroku {
 
 	bool LiveDownloader::getTrueStream()
 	{
-		//½âÎöÕæÊµÏÂÔØµØÖ·
+		//è§£æçœŸå®ä¸‹è½½åœ°å€
 		std::stringstream apiUrl;
 		apiUrl << "https://api.live.bilibili.com/api/playurl?cid=" << realRoomid << "&otype=json&quality=0&platform=web";
 

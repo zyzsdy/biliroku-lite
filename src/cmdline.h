@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <typeinfo>
 #include <cstring>
 #include <algorithm>
-//µ±±àÒëÆ÷·ÇgccÊ±,²»°üº¬cxxabi.hÍ·ÎÄ¼ş
+//å½“ç¼–è¯‘å™¨égccæ—¶,ä¸åŒ…å«cxxabi.hå¤´æ–‡ä»¶
 #ifdef __GNUC__
 #include <cxxabi.h>
 #endif
@@ -108,16 +108,16 @@ namespace cmdline {
 		static inline std::string demangle(const std::string &name)
 		{
 #ifdef _MSC_VER
-			return name; // ÎªMSVC±àÒëÆ÷Ê±Ö±½Ó·µ»Øname
+			return name; // ä¸ºMSVCç¼–è¯‘å™¨æ—¶ç›´æ¥è¿”å›name
 #elif defined(__GNUC__) 
-			// Îªgcc±àÒëÆ÷Ê±»¹µ÷ÓÃÔ­À´µÄ´úÂë
+			// ä¸ºgccç¼–è¯‘å™¨æ—¶è¿˜è°ƒç”¨åŸæ¥çš„ä»£ç 
 			int status = 0;
 			char *p = abi::__cxa_demangle(name.c_str(), 0, 0, &status);
 			std::string ret(p);
 			free(p);
 			return ret;
 #else
-			// ÆäËû²»Ö§³ÖµÄ±àÒëÆ÷ĞèÒª×Ô¼ºÊµÏÖÕâ¸ö·½·¨
+			// å…¶ä»–ä¸æ”¯æŒçš„ç¼–è¯‘å™¨éœ€è¦è‡ªå·±å®ç°è¿™ä¸ªæ–¹æ³•
 #error unexpected c complier (msc/gcc), Need to implement this method for demangle
 #endif
 		}

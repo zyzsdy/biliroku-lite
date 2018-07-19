@@ -5,7 +5,7 @@
 
 namespace biliroku {
 
-	//CURL_EASY_HANDLEµÄÄÚ²¿»Øµ÷£¬ÓÃÀ´½«ÏìÓ¦Êı¾İĞ´ÈëÄÚ´æ¡£
+	//CURL_EASY_HANDLEçš„å†…éƒ¨å›è°ƒï¼Œç”¨æ¥å°†å“åº”æ•°æ®å†™å…¥å†…å­˜ã€‚
 	size_t readCurlUChar(void * buffer, size_t size, size_t nmemb, void * userp) {
 		ByteBuffer *outBuffer = static_cast<ByteBuffer *>(userp);
 
@@ -13,7 +13,7 @@ namespace biliroku {
 		return size * nmemb;
 	}
 
-	//ÉèÖÃCURLÊ¹ÓÃµÄHeader
+	//è®¾ç½®CURLä½¿ç”¨çš„Header
 	curl_slist *getCurlHeader() {
 		curl_slist *headers = NULL;
 		headers = curl_slist_append(headers, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
@@ -22,7 +22,7 @@ namespace biliroku {
 		return headers;
 	}
 
-	//Ê¹ÓÃGET¶ÁÈ¡£¬Õâ¸öº¯Êı»áÍ¬²½×èÈû£¬µ±Æä·µ»ØÊ±£¬ÏìÓ¦ÄÚÈİÒÑ¾­È«²¿×°ÈëoutÖĞ£¨²»º¬Header£©
+	//ä½¿ç”¨GETè¯»å–ï¼Œè¿™ä¸ªå‡½æ•°ä¼šåŒæ­¥é˜»å¡ï¼Œå½“å…¶è¿”å›æ—¶ï¼Œå“åº”å†…å®¹å·²ç»å…¨éƒ¨è£…å…¥outä¸­ï¼ˆä¸å«Headerï¼‰
 	void CURL_simple_get(string url, ByteBuffer &out, bool isUseProxy = false, string proxyStr = "") {
 		curl_global_init(CURL_GLOBAL_ALL);
 

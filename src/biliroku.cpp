@@ -22,6 +22,7 @@ string getVersion() {
 	return versionStream.str();
 }
 
+#ifdef BRL_WIN32
 bool ctrlhandler(DWORD fdwctrltype) {
 	switch (fdwctrltype)
 	{
@@ -33,6 +34,7 @@ bool ctrlhandler(DWORD fdwctrltype) {
 		return false;
 	}
 }
+#endif
 
 int main(int argc, char *argv[]) {
     cmdline::parser cp;
