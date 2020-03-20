@@ -117,7 +117,7 @@ namespace biliroku {
 	{
 		//解析真实下载地址
 		std::stringstream apiUrl;
-		apiUrl << "https://api.live.bilibili.com/api/playurl?cid=" << realRoomid << "&otype=json&quality=0&platform=web";
+		apiUrl << "https://api.live.bilibili.com/room/v1/Room/playUrl?cid=" << realRoomid << "&otype=json&qn=10000&platform=web";
 
 		ByteBuffer streamUrlResult;
 
@@ -127,7 +127,7 @@ namespace biliroku {
 
 		rapidjson::Document streamJson;
 		streamJson.Parse(reinterpret_cast<char *>(streamUrlResult.getBuffer()), streamUrlResult.size());
-		streamUrl = rapidjson::Pointer("/durl/0/url").GetWithDefault(streamJson, "").GetString();
+		streamUrl = rapidjson::Pointer("/data/durl/0/url").GetWithDefault(streamJson, "").GetString();
 
 		if (streamUrl.length() == 0) {
 			log->addLog(BRL_LOG_ERROR, "Failed to resolve real stream url.");
