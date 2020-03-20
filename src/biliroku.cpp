@@ -20,7 +20,7 @@ biliroku::ctrlCEvent *ce;
 
 string getVersion() {
 	std::stringstream versionStream;
-	versionStream << "Biliroku-lite 1.0.3 (" << BRL_STR(BRL_COMP_NAME) << " " << BRL_COMP_VERSION;
+	versionStream << "Biliroku-lite 1.0.4 (" << BRL_STR(BRL_COMP_NAME) << " " << BRL_COMP_VERSION;
 	versionStream << ";" << BRL_STR(BRL_OS) << ") on " << BRL_STR(BRL_ARCH);
 
 	return versionStream.str();
